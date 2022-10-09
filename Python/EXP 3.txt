@@ -1,0 +1,65 @@
+class Employee:
+    def __init__(self, E_id, E_Name):
+        self.E_id = E_id
+        self.E_Name = E_Name
+
+class Developer(Employee):
+    def __init__(self, E_id, E_Name, p_no):
+        super().__init__(E_id, E_Name)
+        self.p_no = p_no
+
+class Tester(Employee):
+    def __init__(self, E_id, E_Name, tp):
+        super().__init__(E_id, E_Name)
+        self.tp = tp
+
+class Manager(Employee):
+    def __init__(self, E_id, E_Name, ld = [], lt = []):
+        super().__init__(E_id, E_Name)
+        self.ld = ld
+        self.lt = lt
+
+    def add_Tester(self, E_id, E_Name, test_project):
+        t = Tester(E_id, E_Name, test_project)
+        self.lt.append(t)
+    
+    def remove_Tester(self, E_id):
+        for tester in self.lt:
+            if tester.E_id == E_id:
+                self.lt.remove(tester)
+    
+    def add_Developer(self, E_id, E_Name, project_number):
+        d = Developer(E_id, E_Name, project_number)
+        self.ld.append(d)
+    
+    def remove_Developer(self, E_id):
+        for dev in self.ld:
+            if dev.E_id == E_id:
+                self.ld.remove(dev)
+
+    def display(self):
+        print(f"testers {self.E_Name} handles:")
+        for t in self.lt:
+            print(t.E_Name, t.E_id)
+        
+        print(f"developers {self.E_Name} handles:")
+        for d in self.ld:
+            print(d.E_Name, d.E_id)
+
+m = Manager('007', 'meneger')
+print("Menu:\n1 to add Tester\n2 to add Developer\n3 to remove Tester\n4 to remove Developer\n5 to display list of employees under manager\n6 to exit")
+n = int(input("Choice: "))
+while n!=6:
+    if n==1:
+        m.add_Tester(input("Enter E_id: "), input("Enter E_Name: "), input("Enter test project: "))
+    elif n==2:
+        m.add_Developer(input("Enter E_id: "), input("Enter E_Name: "), input("Enter project number: "))
+    elif n==3:
+        m.remove_Tester(input("Enter E_id: "))
+    elif n==4:
+        m.remove_Developer(input("Enter E_id: "))
+    elif n==5:
+        m.display()
+    else:
+        print("wrong choice")
+    n = int(input("Choice: "))
