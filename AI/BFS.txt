@@ -1,0 +1,35 @@
+t = {
+    's' : ['a', 'b', 'c'],
+    'a' : ['s', 'b', 'd'],
+    'b' : ['s', 'a', 'd'],
+    'c' : ['s', 'g'],
+    'd' : ['a', 'b', 'e'],
+    'e' : ['d', 'g'],
+    'g' : ['c', 'e']
+}
+
+
+visited = []
+queue = []
+
+def bfs(visited, graph, node):
+    visited.append(node)
+    queue.append(node)
+
+    while queue:
+        m = queue.pop(0)
+        print (m, end = " ")
+        if m == 'g':
+            return queue
+
+        for neighbour in graph[m]:
+            if neighbour not in visited:
+                visited.append(neighbour)
+                queue.append(neighbour)
+
+
+print("Following is the Breadth-First Search")
+q = bfs(visited, t, 's')
+print("")
+for el in q:
+    print(el)
