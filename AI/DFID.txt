@@ -1,0 +1,45 @@
+class Node:
+    def __init__(self, val=None):
+        self.val = val
+        self.left = None
+        self.right = None
+ 
+ 
+def get_root():
+    values = iter(['a', 'b', 'c', 'd', None, None, 'e', 'f', None, None,
+              'g', None, None, 'h', None, None, 'i', 'j', None, None, 'k', None, None])
+ 
+    def tree_recur(itr):
+        val = next(itr)
+        if val is not None:
+            node = Node(val)
+            node.left = tree_recur(itr)
+            node.right = tree_recur(itr)
+            return node
+ 
+    return tree_recur(values)
+
+def dfids():
+    root = get_root()
+    res = float("inf")
+ 
+    def dfids_search(node, depth, limit):
+        if depth <= limit and node is not None:
+            val = node.val
+            print(val)
+            if val == 'g':
+                nonlocal res
+                res = min(res, depth)
+            else:
+                dfids_search(node.left, depth + 1, limit)
+                dfids_search(node.right, depth + 1, limit)
+ 
+    for limit in range(1,5):
+        print("New recursion")
+        dfids_search(root, 0, limit)
+        if res < float("inf"):
+            return res
+    return -1
+ 
+if __name__ == "__main__":
+   print("Shortest Depth: ", dfids())
