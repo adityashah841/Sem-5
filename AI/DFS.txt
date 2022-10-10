@@ -1,0 +1,28 @@
+t = {
+    's' : ['a', 'b', 'c'],
+    'a' : ['s', 'b', 'd'],
+    'b' : ['s', 'a', 'd'],
+    'c' : ['s', 'g'],
+    'd' : ['a', 'b', 'e'],
+    'e' : ['d', 'g'],
+    'g' : ['c', 'e']
+}
+
+ol = []
+cl = []
+
+def dfs( graph, n, ol, cl):
+    while n!='g':
+        cl.append(n)
+        cn = graph[n]
+        l=[]
+        for n in cn:
+            if n not in cl and n not in ol:
+                l.append(n)
+        ol = l + ol
+        n = ol.pop(0)
+    cl.append(n)
+    return ol, cl
+
+ol, cl = dfs( t, 's', ol, cl)
+print(ol, cl)
