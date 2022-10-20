@@ -1,0 +1,59 @@
+Graph = {
+    'S': [('A', 1), ('B', 5), ('C', 4)],
+    'A': [('S', 1), ('C', 7), ('F', 10)],
+    'B': [('S', 5), ('D', 2)],
+    'C': [('S', 4), ('A', 7), ('F', 8), ('E', 2)],
+    'D': [('B', 2), ('E', 7), ('G', 6)],
+    'E': [('C', 2), ('D', 7), ('H', 3)],
+    'F': [('A', 10), ('C', 8)],
+    'G': [('D', 6), ('H', 5)],
+    'H': [('E', 3), ('G', 5)]
+}
+
+Heuristic = {
+    'A':11,
+    'B':8,
+    'C':6,
+    'D':5,
+    'E':3,
+    'F':10,
+    'G':0,
+    'H':4,
+    'S':13
+}
+
+ol = dict()
+
+def ol_sorting(ol):
+    sorted_vals = sorted(ol.values())
+    sorted_ol = dict()
+    for val in sorted_vals:
+        for i in ol:
+            if ol[i]==val:
+                sorted_ol[i]=val
+    return sorted_ol
+
+for el in Graph['S']:
+    ol['S'+el[0]]=el[1] + Heuristic[el[0]]
+
+ol = ol_sorting(ol)
+
+while True:
+    a=0
+    for key in ol.keys():
+        out = ol.pop(key)
+        break
+    for node in Graph[key[-1]]:
+        if node[0] not in key:
+            ol[key+node[0]]=out + node[1] + Heuristic[node[0]] - Heuristic[key[-1]]
+    ol = ol_sorting(ol)
+    for key in ol.keys():
+        for el in key:
+            if el=='G':
+                print(f"Path is {key} and total cost is {ol[key]}")
+                a=1
+                break
+        if a==1:
+            break
+    if a==1:
+        break
