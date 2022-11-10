@@ -1,0 +1,53 @@
+import copy
+ss = [['B', 'C', 'D', 'A'], [], [], []]
+
+def heuristic(l):
+    h = 0
+    if 'A' in l:
+        if l.index('A')!=0:
+            h-=l.index('A')
+    if 'B' in l:
+        if l.index('B')==1 and 'A' in l and l[0]=='A':
+            h+=1
+        else:
+            h-=l.index('B')
+    if 'C' in l:
+        if l.index('C')==2 and 'A' in l and 'B' in l and l[0]=='A' and l[1]=='B':
+            h+=2
+        else:
+            h-=l.index('C')
+    if 'D' in l:
+        if l.index('D')==3 and l[0]=='A' and l[1]=='B' and l[2]=='C':
+            h+=3
+        else:
+            h-=l.index('D')
+    return h
+
+def hu(ss):
+    h=0
+    for l in ss:
+        h+=heuristic(l)
+    return h
+
+def hill_climbing(ss):
+    while(hu(ss)!=6):
+        for i in range(len(ss)):
+            s2 = copy.deepcopy(ss)
+            if s2[i]:
+                k = s2[i].pop(-1)
+                lk=0
+                for col in s2:
+                    col.append(k)
+                    if hu(s2)>hu(ss):
+                        ss=s2
+                        lk=1
+                        break
+                    else:
+                        col.remove(k)
+                if lk==0:
+                    s2[i].append(k)
+                else:
+                    break
+        print(ss, hu(ss))
+
+hill_climbing(ss)
