@@ -1,0 +1,20 @@
+import numpy as np
+
+X = np.array([np.array([1, -2, 0, -1],dtype=np.float), np.array([0, 1.5, -0.5, -1],dtype=np.float), np.array([-1, 1, 0.5, -1],dtype=np.float)],dtype=np.float)
+W = np.array([1, -1, 0, 0.5],dtype=np.float)
+lr = 0.1
+d=np.array([-1, -1, 1],dtype=np.float)
+epochs=3
+for i in range(epochs):
+    for j in range(len(X)):
+        net = np.dot(X[j],W)
+        if net<0:
+            op=-1
+        elif net==0:
+            op=0
+        else:
+            op=1
+        error = d[j]-op
+        dw = lr*error*W
+        W+=dw
+    print(f'W after {i+1} epochs is {W}')
